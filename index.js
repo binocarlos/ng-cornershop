@@ -1,4 +1,4 @@
-var modulename = module.exports = 'cornershop';
+var modulename = module.exports = 'ng-cornershop';
 
 angular
   .module(modulename, [])
