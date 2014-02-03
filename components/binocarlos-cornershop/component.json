@@ -1,0 +1,11 @@
+{
+  "name": "cornershop",
+  "description": "Shopping cart that saves to LocalStorage.",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ],
+  "dependencies": {},
+  "repo": "https://raw.github.com/binocarlos/cornershop"
+}
