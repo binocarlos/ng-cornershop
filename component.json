@@ -4,9 +4,17 @@
   "version": "0.0.1",
   "main": "index.js",
   "scripts": [
-    "index.js"
+    "index.js",
+    "templates/cartdropdown.js",
+    "templates/stripebutton.js",
+    "templates/addressform.js",
+    "templates/completepurchase.js",
+    "templates/costsummary.js",
+    "templates/paypal_button.js"
   ],
   "dependencies": {
-    "binocarlos/cornershop": "*"
+    "binocarlos/cornershop": "*",
+    "binocarlos/ng-safe":"*",
+    "binocarlos/ng-randomid":"*"
   }
 }

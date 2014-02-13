@@ -1,0 +1,21 @@
+<form id="paypal_form" name='paypal_form' action='https://www.sandbox.paypal.com/cgi-bin/webscr' method='post' align="left">
+	<input type='hidden' name='amount' ng-value="getTotal()">
+	<input type='hidden' name='cmd' value='_xclick'>
+	<input type='hidden' name='business' ng-value="paypal_business()">
+	<input type='hidden' name='item_name' ng-value="cart_description()">
+	<input type='hidden' name='no_shipping' value='0'>
+	<input type='hidden' name='no_note' value='1'>
+	<input type='hidden' name='return' ng-value="paypal_url('/paypal_complete')" />
+	<input type='hidden' name='cancel_return' ng-value="paypal_url('/paypal_cancelled')" />
+	<input type='hidden' name='notify_URL' ng-value="paypal_ipn()" />
+	<input type='hidden' name='rm' value='1'>
+	<input type='hidden' name='custom' ng-value='cartid'>
+	<input type='hidden' name='currency_code' value='GBP'>
+	<input type="hidden" name="first_name" ng-value="carddetails.card.name">
+	<input type="hidden" name="address1" ng-value="carddetails.card.address_line1">
+	<input type="hidden" name="address2" ng-value="carddetails.card.address_line2">
+	<input type="hidden" name="city" ng-value="carddetails.card.address_city">
+	<input type="hidden" name="state" ng-value="carddetails.card.address_region">
+	<input type="hidden" name="zip" ng-value="carddetails.card.address_postcode">
+	<a href="#" ng-click="dopaypal()" class="btn btn-two">Pay With PayPal</a>
+</form>

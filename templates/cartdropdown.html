@@ -1,0 +1,37 @@
+<li class="shopping-cart dropdown" ng-cloak>
+    <a href="#" title="View your shopping cart"><i class="fa fa-shopping-cart"></i><span class="amount">{{ cart.getTotal() | currency:"£" }}</span></a>
+
+    <ul class="sub-menu">     
+        <li>                                      
+            <div class="dropdown-cart">
+                <span class="cart-items">You have <strong>{{ cart.items.length }}</strong> items in your cart</span>
+                <table class="table table-cart">
+                    <tbody>
+                        <tr>
+                            <th colspan="2">Product</th>
+                            <th class="text-center">Qty</th>
+                            <th>Total</th>
+                        </tr>
+                    
+                        <tr ng-repeat="item in cart.items">
+                            <td><img ng-src="{{ item.image }}" class="img-center" alt=""></td>
+                            <td><a href="">{{ item.name }}</a></td>
+                            <td class="text-center">{{ item.qty }}</td>
+                            <td>{{ item.price * item.qty | currency:"£" }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-md-6">
+                        <a href="cart.html" class="btn btn-xs btn-three">Edit cart</a>
+                        <a href="" ng-click="clearcart()" class="btn btn-xs btn-three">Clear cart</a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="cart.html" class="btn btn-xs btn-two pull-right">Proceed to checkout</a>
+                        <span class="clearfix"></span>
+                    </div>
+                </div>
+            </div>
+        </li>                                                                                                    
+    </ul>                                                                                                          
+</li>
