@@ -1,5 +1,5 @@
 <li class="shopping-cart dropdown" ng-cloak>
-    <a href="#" title="View your shopping cart"><i class="fa fa-shopping-cart"></i><span class="amount">{{ cart.getTotal() | currency:"£" }}</span></a>
+    <a href="#" title="View your shopping cart"><i class="fa fa-shopping-cart"></i><span class="amount">{{ cart.getTotal(true) | currency:"£" }}</span></a>
 
     <ul class="sub-menu">     
         <li>                                      
@@ -23,11 +23,11 @@
                 </table>
                 <div class="row">
                     <div class="col-md-6">
-                        <a href="cart.html" class="btn btn-xs btn-three">Edit cart</a>
-                        <a href="" ng-click="clearcart()" class="btn btn-xs btn-three">Clear cart</a>
+                        <a href="" ng-click="$emit('cart:view')" class="btn btn-xs btn-three">Edit cart</a>
+                        <a href="" ng-click="$emit('cart:reset')" class="btn btn-xs btn-three">Clear cart</a>
                     </div>
                     <div class="col-md-6">
-                        <a href="cart.html" class="btn btn-xs btn-two pull-right">Proceed to checkout</a>
+                        <a href="" ng-click="$emit('cart:checkout')" class="btn btn-xs btn-two pull-right">Proceed to checkout</a>
                         <span class="clearfix"></span>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 <div>
 	<div ng-hide="stripedetails">
-		<a href="" ng-click="$emit('clickstripe')" class="btn btn-two">Pay With Stripe</a>
+		<a href="" ng-click="clickstripe()" class="btn btn-two">Pay With Stripe</a>
 	</div>
 	<div ng-show="stripedetails">
 
@@ -8,22 +8,24 @@
         <tbody>
         	<tr>
                 <td><h5>card</h5></td>
-                <td><h4>{{ carddetails.card.type }}</h4></td>
+                <td><h4>{{ stripedetails.card.type }}</h4></td>
             </tr>
             <tr>
                 <td><h5>number</h5></td>
-                <td><h4>****-****-****-{{ carddetails.card.last4 }}</h4></td>
+                <td><h4>****-****-****-{{ stripedetails.card.last4 }}</h4></td>
             </tr>
             <tr>
                 <td><h5>expiry</h5></td>
-                <td><h4>{{ carddetails.card.exp_month }} / {{ carddetails.card.exp_year }}</h4></td>
+                <td><h4>{{ stripedetails.card.exp_month }} / {{ stripedetails.card.exp_year }}</h4></td>
             </tr>
             <tr>
                 <td><h5>email</h5></td>
-                <td><h4>{{ carddetails.email }}</h4></td>
+                <td><h4>{{ stripedetails.email }}</h4></td>
             </tr>
         </tbody>
     </table>
+
+
 	</div>
 
 </div>

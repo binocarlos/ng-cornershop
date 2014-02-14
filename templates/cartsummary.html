@@ -1,0 +1,29 @@
+<table class="table table-cart  table-responsive" ng-cloak>
+    <tbody>
+        <tr>
+            <th></th>
+            <th></th>
+            <th>Product name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+        </tr>
+    
+        <tr ng-repeat="item in cart.items">
+            <td class="remove-cell"><a href="" class="cart-remove" title="Remove item" ng-click="cart.removeItem(item.id);cart.save();"><i class="fa fa-times-circle fa-2x"></i></a></td>
+            <td><img ng-src="{{ item.image }}" class="img-center" alt=""></td>
+            <td><a href="">{{ item.name }}</a></td>
+            <td>{{ item.price | currency:"£" }}</td>
+            <td>
+                <input ng-change="cart.save()" type="number" name="cant" ng-model="item.qty" style="width:60px; text-align:center; margin-right:5px; height:34px;">
+            </td>
+            <td>{{ item.price * item.qty | currency:"£" }}</td>
+        </tr>
+        <tr>
+            	<td colspan="4"></td>
+            	<td><strong>Total excluding shipping</strong></td>
+    						<td align=""><strong>{{ cart.getTotal() | currency:"£" }}</strong></td>
+
+        </tr>
+    </tbody>
+</table>

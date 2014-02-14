@@ -10,7 +10,11 @@
     "templates/addressform.js",
     "templates/completepurchase.js",
     "templates/costsummary.js",
-    "templates/paypal_button.js"
+    "templates/cartsummary.js",
+    "templates/paypal_button.js",
+    "templates/checkout.js",
+    "templates/checkoutsummary.js",
+    "templates/shippingoptions.js"
   ],
   "dependencies": {
     "binocarlos/cornershop": "*",

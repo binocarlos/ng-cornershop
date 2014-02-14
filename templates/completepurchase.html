@@ -1,6 +1,7 @@
 <div>
 
-	<button ng-show="hascard" ng-click="dopurchase()" class="btn btn-primary">Make Purchase</button>
+	<button ng-click="dopurchase()" class="btn btn-primary">Make Purchase</button>
+
 	<div ng-show="haserror">
 	    <span class="label label-danger">Please enter all fields</span>
 	</div>
@@ -10,7 +11,4 @@
 	<div ng-show="ordererror">
 	    <span class="label label-danger">order error: {{ ordererror }}</span>
 	</div>
-
-	<hr />
-	<cost-summary />
 </div>

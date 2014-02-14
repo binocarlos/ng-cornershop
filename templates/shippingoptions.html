@@ -1,0 +1,7 @@
+<div ng-repeat="shipping in shipping_destinations">
+    <div class="checkbox">
+        <label>
+          <input name="shipping" ng-model="choosencost" ng-value="shipping.price" ng-click="setshipping(shipping)" type="radio"> {{ shipping.name }} - &pound;{{ shipping.price }}
+        </label>
+    </div>
+</div>

@@ -1,0 +1,1 @@
+module.exports = '<div ng-repeat="shipping in shipping_destinations">\n    <div class="checkbox">\n        <label>\n          <input name="shipping" ng-model="choosencost" ng-value="shipping.price" ng-click="setshipping(shipping)" type="radio"> {{ shipping.name }} - &pound;{{ shipping.price }}\n        </label>\n    </div>\n</div>';

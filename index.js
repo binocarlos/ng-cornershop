@@ -2,13 +2,323 @@ var modulename = module.exports = 'ng-cornershop';
 var CornerShop = require('cornershop');
 
 angular
-  .module(modulename, [])
+  .module(modulename, [
+    require('ng-safe'),
+    require('ng-randomid')
+  ])
 
-  .run(['$rootScope', function($rootScope){
-    console.log('-------------------------------------------');
-    console.log('-------------------------------------------');
-    console.log('cornershop init');
-  }])
+  .factory('$cornershop', function(){
+    return CornerShop;
+  })
+
+  // the small desc for stripe
+  .factory('$cartdesc', function(){
+    return function(cart, title){
+      var qty = 0;
+      title = title || 'item';
+      var items = cart.items.map(function(item){
+        qty += item.qty;
+      })
+
+      return qty + ' ' + title + (qty>1 ? 's' : '') + '(' + cart.getTotal() + ') + shipping (' + (cart.getExtraTotal() || 0) + ')';
+    }
+  })
+
+  .factory('$fullcartdesc', function(){
+    return function(cart){
+      var items = cart.items.map(function(item){
+        return item.qty + ' x ' + item.desc;
+      })
+
+      items = items.concat(cart.getExtras().map(function(extra){
+        return extra.id + ': ' + extra.name + ' ' + extra.price;
+      }))
+
+      return items.join("\n");  
+    }
+  })
+
+  .directive('checkout', function($http, $cartdesc, $fullcartdesc){
+    
+    return {
+      restrict:'EA',
+      scope:{
+        cart:'=',
+        settings:'=',
+        shipping:'='
+      },
+      template: require('./templates/checkout'),
+      replace: true,
+      link:function($scope, elem, $attr){
+
+        $scope.stripedetails = null;
+        $scope.paypaldetails = null;
+
+        $scope.address = $scope.cart.setting('address') || {};
+
+        $scope.$watch('address', function(address){
+          $scope.cart.setting('address', address);
+          $scope.cart.save();
+        }, true)
+
+        $scope.stripedetails = null;
+
+        $scope.$on('payment:stripe', function($ev, details){
+          $scope.stripedetails = details;
+        })
+
+        $scope.$on('payment:paypal', function($ev, details){
+          $scope.paypaldetails = details;
+        })
+
+        $scope.stripedetails = null;
+
+        $scope.$on('payment:error', function($ev, errortext){
+          $scope.error = errortext;
+        })
+
+        // this is to send the stripe details to the server
+        $scope.stripepurchase = function(){
+
+          if(!$scope.stripedetails){
+            return;
+          }
+
+          var errortext = null;
+
+          ['name', 'line1', 'line2', 'city', 'state', 'zip', 'country'].forEach(function(field){
+
+            if(!$scope.address[field]){
+              errortext = 'please enter the address - ' + field;
+            }
+
+          })
+
+          if(errortext){
+            $scope.error = errortext;
+            return;
+          }
+
+          $scope.inprogress = true;
+
+          $http({
+            method: 'POST',
+            url: $scope.settings.stripe_checkout_url,
+            data:{
+              notes:$fullcartdesc($scope.cart),
+              desc:$cartdesc($scope.cart),
+              stripe:$scope.stripedetails,
+              cart:$scope.cart.toJSON(),
+              amount:$scope.cart.getTotal(true)
+            }
+          })
+          .success(function(data, status, headers, config) {
+            $scope.inprogress = false;
+            document.location = '/checkout.html';
+          })
+          .error(function(data, status, headers, config) {
+            $scope.inprogress = false;
+            $scope.error = data;
+          })
+
+        }
+      }
+    };
+  })
+
+  .directive('paypalButton', function($cartdesc, $fullcartdesc, $http){
+    
+    return {
+      restrict:'EA',
+      scope:{
+        settings:'=',
+        cart:'=',
+        address:'='
+      },
+      template: require('./templates/paypal_button'),
+      replace: true,
+      link:function($scope, elem, $attr){
+        $scope.$cartdesc = $cartdesc;
+
+        $scope.dopaypal = function(){
+          $http({
+            method: 'POST',
+            url: $scope.settings.paypal_stash_url,
+            data:{
+              notes:$fullcartdesc($scope.cart),
+              desc:$cartdesc($scope.cart),
+              cart:$scope.cart.toJSON(),
+              amount:$scope.cart.getTotal(true)
+            }
+          })
+          .success(function(data, status, headers, config) {
+
+            $scope.stashid = data.id;
+            setTimeout(function(){
+              $('#paypal_form').submit();
+            }, 500)
+            
+          })
+          .error(function(data, status, headers, config) {
+
+            $scope.$emit('payment:error', data);
+          })
+        }
+
+      }
+    };
+  })
+
+  .directive('stripeButton', function($safeApply, $cartdesc){
+    return {
+      restrict:'EA',
+      scope:{
+        settings:'=',
+        cart:'=',
+        address:'='
+      },
+      template: require('./templates/stripebutton'),
+      replace: true,
+      controller:function($scope){
+
+        
+
+        var stripe_handler = StripeCheckout.configure({
+          key:$scope.settings.stripe_publish_key,
+          token:function(token, args){
+            $safeApply($scope, function(){
+              $scope.$emit('payment:stripe', token);
+              $scope.stripedetails = token;
+            })
+          }
+        })
+
+        $scope.clickstripe = function(){
+          stripe_handler.open({
+            name: $scope.settings.shop_name,
+            description: $cartdesc($scope.cart),
+            currency:'GBP',
+            amount: Math.ceil($scope.cart.getTotal(true) * 100)
+          });
+        }
+
+
+
+      }
+    };
+  })
+
+
+  .directive('shippingOptions', function(){
+    
+    return {
+      restrict:'EA',
+      scope:{
+        cart:'=',
+        shipping_destinations:'=shipping'
+      },
+      template: require('./templates/shippingoptions'),
+      replace: true,
+      link:function($scope, $elem){
+
+        $scope.choosenshipping = $scope.cart.getExtra('shipping') || {};
+        $scope.choosencost = $scope.choosenshipping.price;
+
+        $scope.setshipping = function(shipping){
+          $scope.choosenshipping = shipping;
+          $scope.cart.setExtra('shipping', shipping);
+          $scope.cart.save();
+          $scope.choosencost = shipping.price;
+        }
+      }
+    };
+  })
+
+  .directive('cartDropdown', function(){
+    
+    return {
+      restrict:'EA',
+      scope:{
+        cart:'='
+      },
+      template: require('./templates/cartdropdown'),
+      replace: true,
+      link:function($scope, elem, $attr){
+        $scope.clear = function(){
+          $scope.cart.items = [];
+          $scope.cart.save();
+          $scope.$emit('cart:message', 'cart cleared');
+        }
+      }
+    };
+  })
+
+
+  .directive('cartSummary', function(){
+    
+    return {
+      restrict:'EA',
+      scope:{
+        cart:'='
+      },
+      template: require('./templates/cartsummary'),
+      replace: true,
+      link:function($scope, elem, $attr){
+        
+      }
+    };
+  })
+
+  .directive('checkoutSummary', function(){
+    
+    return {
+      restrict:'EA',
+      scope:{
+        cart:'='
+      },
+      template: require('./templates/checkoutsummary'),
+      replace: true
+    };
+  })
+
+  .directive('costSummary', function(){
+    
+    return {
+      restrict:'EA',
+      scope:{
+        cart:'='
+      },
+      template: require('./templates/costsummary'),
+      replace: true
+    };
+  })
+
+
+
+  .directive('addressForm', function(){
+    
+    return {
+      restrict:'EA',
+      scope:{
+        address:'='
+      },
+      template: require('./templates/addressform'),
+      replace: true
+    };
+  })
+
+  .directive('completePurchase', function(){
+    
+    return {
+      restrict:'EA',
+      template: require('./templates/completepurchase'),
+      replace: true
+    };
+  })
+
+
+
+/*
 
   .controller('CartCheckoutCtrl', function($scope, $shopdata, $randomid, $window, $http){
     
@@ -85,77 +395,4 @@ angular
     
   })
 
-
-  .directive('paypalButton', function(){
-    
-    return {
-      restrict:'EA',
-      template: require('./templates/paypal_button'),
-      replace: true
-    };
-  })
-
-  .directive('stripeButton', function($safeApply){
-    return {
-      restrict:'EA',
-      template: require('./templates/stripebutton'),
-      replace: true,
-      controller:function($scope){
-        var stripe_handler = StripeCheckout.configure({
-          key:'pk_test_npUDT7hoMCMbr16LZBGEyhsM',
-          token:function(token, args){
-            $safeApply($scope, function(){
-              $scope.$emit('card', token);
-            })
-          }
-        })
-
-        $scope.$on('clickstripe', function($ev){
-          stripe_handler.open({
-            name: 'FunkyBod Order',
-            description: $scope.cart_description(),
-            currency:'GBP',
-            amount: Math.ceil($scope.getTotal() * 100)
-          });
-        })
-      }
-    };
-  })
-
-
-  .directive('cartDropdown', function(){
-    
-    return {
-      restrict:'EA',
-      template: require('./templates/cartdropdown'),
-      replace: true
-    };
-  })
-
-
-  .directive('addressForm', function(){
-    
-    return {
-      restrict:'EA',
-      template: require('./templates/addressform'),
-      replace: true
-    };
-  })
-
-  .directive('completePurchase', function(){
-    
-    return {
-      restrict:'EA',
-      template: require('./templates/completepurchase'),
-      replace: true
-    };
-  })
-
-  .directive('costSummary', function(){
-    
-    return {
-      restrict:'EA',
-      template: require('./templates/costsummary'),
-      replace: true
-    };
-  })
+  */

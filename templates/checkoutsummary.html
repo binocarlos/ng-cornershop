@@ -1,0 +1,37 @@
+<div>
+	<div ng-if="cart.items.length>0">		
+		<hr>
+
+		<h4><i class="fa fa-shopping-cart"></i> Shopping bag	</h4>
+		<hr>
+
+		<div>
+			<img ng-src="{{ cart.items[0].image }}" class="img-responsive img-center" alt="" />
+			<p align="center">{{ cart.items[0].name }}</p>
+			<p align="center">{{ cart.items[0].price }}</p>
+		</div>
+		<hr>
+	</div>
+
+	<div ng-if="cart.items.length>1">
+		<div ng-click="shoppingExtra=!shoppingExtra" >
+			+ {{cart.items.length-1}} More. Show All
+			<hr>
+				
+		</div>
+	  <div ng-show="shoppingExtra">
+			<div ng-repeat="item in cart.items.slice(1)">
+								<img ng-src="{{ item.image }}" class="img-responsive img-center" alt="">
+							<p align="center">{{ item.name }}</p>
+								<p align="center"><strong>{{ item.price }}</strong></p>
+		    
+		   </div>	
+	  </div>	
+	</div>
+
+	<div>
+
+	    <cost-summary cart="cart" />
+
+	</div>
+</div>

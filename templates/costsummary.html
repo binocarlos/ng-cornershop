@@ -4,7 +4,7 @@
 	<div class="col-sm-6"><strong>Subtotal:</strong></div>	
 	<div class="col-sm-6  "> {{ cart.getTotal() | currency:"£" }}</div>
 	<div class="col-sm-6"><strong>Shipping:</strong></div>	
-	<div class="col-sm-6 "> {{ shippingTotal() | currency:"£" }}</div>
+	<div class="col-sm-6 "> {{ cart.getExtraTotal() | currency:"£" }}</div>
 	<div class="col-sm-6"><strong>Total:</strong></div>	
-	<div class="col-sm-6 "> {{ getTotal() | currency:"£" }}</div>
+	<div class="col-sm-6 "> {{ cart.getTotal(true) | currency:"£" }}</div>
 </div>
