@@ -58,9 +58,15 @@
                     </a>
                     <div id="shipping" class="panel-collapse collapse">
                         <div class="panel-body" style="background-color:#fff;">
+
+                            <div>{{ labels.shipping_notes }}</div>
                                     
                             <div>
                                 <shipping-options shipping="shipping" cart="cart" />
+                            </div>
+
+                            <div>
+                                {{ cart.qty() }} item{{ (cart.qty()>1?'s':'') }} = {{ cart.getExtraTotal() | currency:"£" }}
                             </div>
 
                             <div style="margin-top:30px;">

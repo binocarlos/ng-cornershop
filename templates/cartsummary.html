@@ -15,7 +15,7 @@
             <td><a href="">{{ item.name }}</a></td>
             <td>{{ item.price | currency:"£" }}</td>
             <td>
-                <input ng-change="cart.save()" type="number" name="cant" ng-model="item.qty" style="width:60px; text-align:center; margin-right:5px; height:34px;">
+                <input ng-change="checkqty(item);cart.save()" type="number" name="cant" ng-model="item.qty" style="width:60px; text-align:center; margin-right:5px; height:34px;">
             </td>
             <td>{{ item.price * item.qty | currency:"£" }}</td>
         </tr>

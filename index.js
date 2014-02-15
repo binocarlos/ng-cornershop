@@ -45,7 +45,8 @@ angular
       scope:{
         cart:'=',
         settings:'=',
-        shipping:'='
+        shipping:'=',
+        labels:'='
       },
       template: require('./templates/checkout'),
       replace: true,
@@ -109,7 +110,7 @@ angular
               desc:$cartdesc($scope.cart),
               stripe:$scope.stripedetails,
               cart:$scope.cart.toJSON(),
-              amount:$scope.cart.getTotal(true)
+              amount:Math.round($scope.cart.getTotal(true)*100)/100
             }
           })
           .success(function(data, status, headers, config) {
@@ -148,7 +149,7 @@ angular
               notes:$fullcartdesc($scope.cart),
               desc:$cartdesc($scope.cart),
               cart:$scope.cart.toJSON(),
-              amount:$scope.cart.getTotal(true)
+              amount:Math.round($scope.cart.getTotal(true)*100)/100
             }
           })
           .success(function(data, status, headers, config) {
@@ -221,13 +222,13 @@ angular
       replace: true,
       link:function($scope, $elem){
 
-        $scope.choosenshipping = $scope.cart.getExtra('shipping') || {};
+        $scope.choosenshipping = $scope.cart.setting('baseshipping') || {};
         $scope.choosencost = $scope.choosenshipping.price;
 
         $scope.setshipping = function(shipping){
+
+          $scope.$emit('cart:shipping', shipping);
           $scope.choosenshipping = shipping;
-          $scope.cart.setExtra('shipping', shipping);
-          $scope.cart.save();
           $scope.choosencost = shipping.price;
         }
       }
@@ -264,7 +265,11 @@ angular
       template: require('./templates/cartsummary'),
       replace: true,
       link:function($scope, elem, $attr){
-        
+        $scope.checkqty = function(item){
+          if(item.qty<1){
+            item.qty = 1;
+          }
+        }
       }
     };
   })

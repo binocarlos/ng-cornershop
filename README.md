@@ -12,7 +12,6 @@ $ component install binocarlos/ng-cornershop
 ## usage
 
 ```
-
 angular.module('myModule', [
 	require('cornershop')
 ])
