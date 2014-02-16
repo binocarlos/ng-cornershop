@@ -1,4 +1,4 @@
-<form id="paypal_form" name="paypal_form" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" align="left">
+<form id="paypal_form" name="paypal_form" action="settings.paypal_link" method="post" align="left">
 	<input type="hidden" name="amount" ng-value="cart.getTotal(true) | number:2">
 	<input type="hidden" name="cmd" value="_xclick">
 	<input type="hidden" name="business" ng-value="settings.paypal_business">
