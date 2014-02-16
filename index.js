@@ -87,7 +87,7 @@ angular
 
           var errortext = null;
 
-          ['name', 'line1', 'line2', 'city', 'state', 'zip', 'country'].forEach(function(field){
+          ['name', 'line1', 'city', 'state', 'zip', 'country'].forEach(function(field){
 
             if(!$scope.address[field]){
               errortext = 'please enter the address - ' + field;
