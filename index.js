@@ -114,12 +114,12 @@ angular
             }
           })
           .success(function(data, status, headers, config) {
-            $scope.inprogress = false;
+            //$scope.inprogress = false;
             document.location = '/checkout.html';
           })
           .error(function(data, status, headers, config) {
             $scope.inprogress = false;
-            $scope.error = data;
+            $scope.error = data || 'there was an error';
           })
 
         }
