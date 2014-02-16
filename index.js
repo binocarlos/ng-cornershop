@@ -141,6 +141,8 @@ angular
       link:function($scope, elem, $attr){
         $scope.$cartdesc = $cartdesc;
 
+        elem.attr('action', $scope.settings.paypal_link);
+
         $scope.dopaypal = function(){
           $http({
             method: 'POST',
