@@ -118,8 +118,11 @@
                     <div id="payment" class="panel-collapse collapse">
                         <div class="panel-body" style="background-color:#fff;">
  							
-                            <div style="margin:10px;" ng-hide="stripedetails">
+                            <div class="col-sm-6" ng-hide="stripedetails">
                                 <paypal-button settings="settings" cart="cart" address="address" />
+                            </div>
+                            <div class="col-sm-6" ng-hide="stripedetails">
+                                <p>Complete your payment via Paypal</p>
                             </div>
                             <div style="margin:10px;">
                                 <stripe-button settings="settings" cart="cart" address="address" />
