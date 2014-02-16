@@ -118,19 +118,11 @@
                     <div id="payment" class="panel-collapse collapse">
                         <div class="panel-body" style="background-color:#fff;">
  							
-                            <div class="col-sm-6" ng-hide="stripedetails">
+                            <div class ng-hide="stripedetails">
                                 <paypal-button settings="settings" cart="cart" address="address" />
-                                <p>Visit Paypal to complete your purchase</p>
-                                <p><img src ="images/payment_pp.png"></p>
                             </div>
-                            <div class="col-sm-6">
+                            <div style="margin:10px;">
                                 <stripe-button settings="settings" cart="cart" address="address" />
-                                	<p>Complete your purchase directly on Funkybod </p>
-                                    <p><img src ="images/payment1.png"></p>
-                                    <p><badge>1 </badge>Emter your card details</strong></p>
-                                    <p><badge>2 </badge>Click on Make Purchase</strong></p>
-
-                            
                             </div>
 
                             <div ng-show="stripedetails">
