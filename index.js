@@ -11,6 +11,17 @@ angular
     return CornerShop;
   })
 
+  .factory('$paypaldesc', function(){
+    return function(cart){
+      var items = cart.items.map(function(item){
+        return item.qty + ' x ' + item.name;
+      })
+
+      return items.join(" --- ");
+      //return qty + ' ' + title + (qty>1 ? 's' : '') + '(' + cart.getTotal() + ') + shipping (' + (cart.getExtraTotal() || 0) + ')';
+    }
+  })
+
   // the small desc for stripe
   .factory('$cartdesc', function(){
     return function(cart, title){
@@ -127,7 +138,7 @@ angular
     };
   })
 
-  .directive('paypalButton', function($cartdesc, $fullcartdesc, $http){
+  .directive('paypalButton', function($cartdesc, $fullcartdesc, $paypaldesc, $http){
     
     return {
       restrict:'EA',
@@ -141,6 +152,7 @@ angular
       replace: true,
       link:function($scope, elem, $attr){
         $scope.$cartdesc = $cartdesc;
+        $scope.$paypaldesc = $paypaldesc;
 
         elem.attr('action', $scope.settings.paypal_link);
 
@@ -226,7 +238,7 @@ angular
       replace: true,
       link:function($scope, $elem){
 
-        $scope.choosenshipping = $scope.cart.setting('baseshipping') || {};
+        $scope.choosenshipping = $scope.cart.setting('baseshipping') || null;
         $scope.choosencost = $scope.choosenshipping.price;
 
         $scope.setshipping = function(shipping){
@@ -234,6 +246,10 @@ angular
           $scope.$emit('cart:shipping', shipping);
           $scope.choosenshipping = shipping;
           $scope.choosencost = shipping.price;
+        }
+
+        if(!$scope.choosenshipping){
+          $scope.setshipping($scope.shipping_destinations[0]);
         }
       }
     };
