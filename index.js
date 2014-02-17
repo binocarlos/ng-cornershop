@@ -239,7 +239,11 @@ angular
       link:function($scope, $elem){
 
         $scope.choosenshipping = $scope.cart.setting('baseshipping') || null;
-        $scope.choosencost = $scope.choosenshipping.price;
+
+        if($scope.choosenshipping){
+          $scope.choosencost = $scope.choosenshipping.price;  
+        }
+        
 
         $scope.setshipping = function(shipping){
 
