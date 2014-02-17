@@ -132,6 +132,7 @@ angular
     return {
       restrict:'EA',
       scope:{
+        title:'@',
         settings:'=',
         cart:'=',
         address:'='
@@ -176,6 +177,7 @@ angular
     return {
       restrict:'EA',
       scope:{
+        title:'@',
         settings:'=',
         cart:'=',
         address:'='

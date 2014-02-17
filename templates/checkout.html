@@ -118,14 +118,15 @@
                     <div id="payment" class="panel-collapse collapse">
                         <div class="panel-body" style="background-color:#fff;">
  							
-                            <div style="margin:10px;" ng-hide="stripedetails">
-                                <paypal-button settings="settings" cart="cart" address="address" />
-                            </div>
-                            <div style="margin:10px;">
-                                <stripe-button settings="settings" cart="cart" address="address" />
+                            <div ng-hide="stripedetails">
+                                <paypal-button title="Pay With PayPal" settings="settings" cart="cart" address="address" />
                             </div>
 
-                            <div ng-show="stripedetails">
+                            <div style="margin-top:10px;">
+                                <stripe-button title="Pay With Card" settings="settings" cart="cart" address="address" />
+                            </div>
+
+                            <div ng-show="stripedetails" style="margin-top:10px;">
 
                                 <hr />
 
