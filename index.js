@@ -17,7 +17,7 @@ angular
         return item.qty + ' x ' + item.name;
       })
 
-      return items.join(" - ");
+      return items.join(" - ") + ' + shipping (' + (cart.getExtraTotal() || 0) + ')';
       //return qty + ' ' + title + (qty>1 ? 's' : '') + '(' + cart.getTotal() + ') + shipping (' + (cart.getExtraTotal() || 0) + ')';
     }
   })
