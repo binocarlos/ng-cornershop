@@ -39,9 +39,11 @@
                                     <cart-summary cart="cart" />
                                 </div>
 
+<!--
                                 <div style="margin-top:30px;">
-                                    <a href="#shipping" class="btn btn-success btn-xs pull-right" style="color:#fff;">Next &raquo;</a>
+                                    <a href="#address" class="nav next btn btn-success btn-xs pull-right" style="color:#fff;">Next &raquo;</a>
                                 </div>
+-->
 
                         </div>
                     </div>
@@ -65,11 +67,12 @@
                             <div>
                               <address-form address="address" />
                             </div>
-
+<!--
                             <div style="margin-top:30px;">
-                                <a href="#order" class="btn btn-xs btn-success pull-left" style="color:#fff;">&laquo; Back</a>
-                                <a href="#shipping" class="btn btn-xs btn-success pull-right" style="color:#fff;">Next &raquo;</a>
+                                <a href="#order" class="nav back btn btn-xs btn-success pull-left" style="color:#fff;">&laquo; Back</a>
+                                <a href="#shipping" class="nav next btn btn-xs btn-success pull-right" style="color:#fff;">Next &raquo;</a>
                             </div>
+-->
                         </div>
                     </div>
                 </div>
@@ -98,10 +101,13 @@
                                 {{ cart.qty() }} item{{ (cart.qty()>1?'s':'') }} = {{ cart.getExtraTotal() | currency:"£" }}
                             </div>
 
+<!--
                             <div style="margin-top:30px;">
-                                <a href="#address" class="btn btn-xs btn-success pull-left" style="color:#fff;">&laquo; Back</a>
-                                <a href="#payment" class="btn btn-xs btn-success pull-right" style="color:#fff;">Next &raquo;</a>
+                                <a href="#address" class="nav back btn btn-xs btn-success pull-left" style="color:#fff;">&laquo; Back</a>
+                                <a href="#payment" class="nav next btn btn-xs btn-success pull-right" style="color:#fff;">Next &raquo;</a>
                             </div>
+
+-->
                         </div>
                     </div>
                 </div>
@@ -142,10 +148,11 @@
                                 </div>
 
                             </div>
-
+<!--
                             <div style="margin-top:30px;">
-                                <a href="#shipping" class="btn btn-xs btn-success pull-left" style="color:#fff;">&laquo; Back</a>
+                                <a href="#shipping" class="nav back btn btn-xs btn-success pull-left" style="color:#fff;">&laquo; Back</a>
                             </div>
+-->
                         </div>
                     </div>
                 </div>
