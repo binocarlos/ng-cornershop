@@ -185,7 +185,7 @@ angular
     };
   })
 
-  .directive('stripeButton', function($safeApply, $cartdesc){
+  .directive('stripeButton', function($safeApply, $cartdesc, $paypaldesc){
     return {
       restrict:'EA',
       scope:{
@@ -213,7 +213,7 @@ angular
         $scope.clickstripe = function(){
           stripe_handler.open({
             name: $scope.settings.shop_name,
-            description: $cartdesc($scope.cart),
+            description: $paypaldesc($scope.cart),
             currency:'GBP',
             amount: Math.ceil($scope.cart.getTotal(true) * 100)
           });
