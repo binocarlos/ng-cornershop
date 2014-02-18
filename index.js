@@ -49,7 +49,7 @@ angular
     }
   })
 
-  .directive('checkout', function($http, $cartdesc, $fullcartdesc){
+  .directive('checkout', function($http, $cartdesc, $fullcartdesc, $paypaldesc){
     
     return {
       restrict:'EA',
@@ -118,7 +118,7 @@ angular
             url: $scope.settings.stripe_checkout_url,
             data:{
               notes:$fullcartdesc($scope.cart),
-              desc:$cartdesc($scope.cart),
+              desc:$paypaldesc($scope.cart),
               stripe:$scope.stripedetails,
               cart:$scope.cart.toJSON(),
               amount:Math.round($scope.cart.getTotal(true)*100)/100
@@ -185,7 +185,7 @@ angular
     };
   })
 
-  .directive('stripeButton', function($safeApply, $cartdesc, $paypaldesc){
+  .directive('stripeButton', function($safeApply, $cartdesc){
     return {
       restrict:'EA',
       scope:{
@@ -213,7 +213,7 @@ angular
         $scope.clickstripe = function(){
           stripe_handler.open({
             name: $scope.settings.shop_name,
-            description: $paypaldesc($scope.cart),
+            description: $cartdesc($scope.cart),
             currency:'GBP',
             amount: Math.ceil($scope.cart.getTotal(true) * 100)
           });
