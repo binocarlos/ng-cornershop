@@ -244,8 +244,11 @@ angular
         if($scope.choosenshipping){
           $scope.choosencost = $scope.choosenshipping.price;  
         }
-        
 
+        $scope.$on('shipping:force', function(ev, shipping){
+          $scope.setshipping(shipping);
+        })
+        
         $scope.setshipping = function(shipping){
 
           $scope.$emit('cart:shipping', shipping);
@@ -334,8 +337,31 @@ angular
       },
       template: require('./templates/addressform'),
       replace: true,
-      controller:function($scope){
+      link:function($scope){
         $scope.countries = $countries;
+
+        $scope.country = null;
+
+        $scope.$watch('address.country', function(c){
+          if(!c){
+            return;
+          }
+          if(!$scope.country || $scope.country.name!=c.name){
+            $scope.country = $countries.filter(function(c){
+              if(!$scope.address){
+                return false;
+              }
+              return c.name==$scope.address.country;
+            })[0]
+          }
+        }, true)
+        $scope.$watch('country', function(c){
+          if(!c){
+            return;
+          }
+          $scope.$emit('address:country', c);
+          $scope.address.country = c.name;
+        }, true);
       }
     };
   })
