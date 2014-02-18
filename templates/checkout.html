@@ -9,8 +9,8 @@
         		<hr>
         		<ol class="acc-wizard-sidebar">
 				  <li class="acc-wizard-todo"><a href="#order">Order</a></li>
-                  <li class="acc-wizard-todo"><a href="#shipping">Shipping</a></li>
 				  <li class="acc-wizard-todo"><a href="#address">Address</a></li>
+                  <li class="acc-wizard-todo"><a href="#shipping">Shipping</a></li>
 				  <li class="acc-wizard-todo"><a href="#payment">Payment</a></li>
 				  
 				</ol>
@@ -47,12 +47,40 @@
                     </div>
                 </div>
 
+        
+
+                <div class="panel panel-default" style="background-color:#f5f5f5;padding:5px;">
+                    <a data-toggle="collapse" data-parent="#cartAccordian" href="#address">
+                    <div class="panel-heading" style="margin-bottom:5px;">
+                        <h4 class="panel-title">
+                            
+                            2. Address
+                            
+                        </h4>
+                    </div>
+                    </a>
+                    <div id="address" class="panel-collapse collapse ">
+                        <div class="panel-body" style="background-color:#fff;">
+
+                            <div>
+                              <address-form address="address" />
+                            </div>
+
+                            <div style="margin-top:30px;">
+                                <a href="#shipping" class="btn btn-xs btn-success pull-left" style="color:#fff;">&laquo; Back</a>
+                                <a href="#payment" class="btn btn-xs btn-success pull-right" style="color:#fff;">Next &raquo;</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+
                 <div class="panel panel-default" style="background-color:#f5f5f5;padding:5px;">
                     <a data-toggle="collapse" data-parent="#cartAccordian" href="#shipping">
                     <div class="panel-heading" style="margin-bottom:5px;">
                         <h4 class="panel-title">
                             
-                            2. Shipping
+                            3. Shipping
                             
                         </h4>
                     </div>
@@ -73,32 +101,6 @@
                             <div style="margin-top:30px;">
                                 <a href="#order" class="btn btn-xs btn-success pull-left" style="color:#fff;">&laquo; Back</a>
                                 <a href="#address" class="btn btn-xs btn-success pull-right" style="color:#fff;">Next &raquo;</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                        
-
-                <div class="panel panel-default" style="background-color:#f5f5f5;padding:5px;">
-                    <a data-toggle="collapse" data-parent="#cartAccordian" href="#address">
-                    <div class="panel-heading" style="margin-bottom:5px;">
-                        <h4 class="panel-title">
-                            
-                            3. Address
-                            
-                        </h4>
-                    </div>
-                    </a>
-                    <div id="address" class="panel-collapse collapse ">
-                        <div class="panel-body" style="background-color:#fff;">
-
-                            <div>
-                    		  <address-form address="address" />
-                            </div>
-
-                            <div style="margin-top:30px;">
-                                <a href="#shipping" class="btn btn-xs btn-success pull-left" style="color:#fff;">&laquo; Back</a>
-                                <a href="#payment" class="btn btn-xs btn-success pull-right" style="color:#fff;">Next &raquo;</a>
                             </div>
                         </div>
                     </div>

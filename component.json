@@ -19,6 +19,7 @@
   "dependencies": {
     "binocarlos/cornershop": "*",
     "binocarlos/ng-safe":"*",
-    "binocarlos/ng-randomid":"*"
+    "binocarlos/ng-randomid":"*",
+    "binocarlos/ng-country":"*"
   }
 }

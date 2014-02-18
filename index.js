@@ -4,7 +4,8 @@ var CornerShop = require('cornershop');
 angular
   .module(modulename, [
     require('ng-safe'),
-    require('ng-randomid')
+    require('ng-randomid'),
+    require('ng-country')
   ])
 
   .factory('$cornershop', function(){
@@ -324,7 +325,7 @@ angular
 
 
 
-  .directive('addressForm', function(){
+  .directive('addressForm', function($countries){
     
     return {
       restrict:'EA',
@@ -332,7 +333,10 @@ angular
         address:'='
       },
       template: require('./templates/addressform'),
-      replace: true
+      replace: true,
+      controller:function($scope){
+        $scope.countries = $countries;
+      }
     };
   })
 
