@@ -9,5 +9,6 @@ templates:
 	component convert templates/paypal_button.html
 	component convert templates/checkoutsummary.html
 	component convert templates/shippingoptions.html
+	component convert templates/contactform.html
 
 .PHONY: templates

@@ -326,7 +326,32 @@ angular
     };
   })
 
+  .directive('contactForm', function($countries){
+    
+    return {
+      restrict:'EA',
+      scope:{
+        public_key:'=',
+        submit_url:'='
+      },
+      template: require('./templates/contactform'),
+      replace: true,
+      link:function($scope){
 
+        $scope.$watch('public_key', function(key){
+          if(key){
+            Recaptcha.create(key,
+            "recaptchaDiv",
+            {
+                  theme: "clean",
+                  callback: Recaptcha.recaptcha_response_field
+            }); 
+          }
+        })
+
+      }
+    };
+  })
 
   .directive('addressForm', function($countries){
     
